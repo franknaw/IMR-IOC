@@ -1,0 +1,2475 @@
+{
+	"info": {
+		"_postman_id": "421ca1de-59a3-478b-98c7-b1993218f543",
+		"name": "Guacamole",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Generate Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"const authToken = jsonData.authToken;\r",
+									"const dataSource = jsonData.dataSource;\r",
+									"console.log(\"auth token  -> \", authToken);\r",
+									"console.log(\"data source -> \", dataSource);\r",
+									"pm.collectionVariables.set(\"dataSource\", dataSource);\r",
+									"pm.collectionVariables.set(\"authToken\", authToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/tokens",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"tokens"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Token",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/tokens/{{authToken}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"tokens",
+								"{{authToken}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Connections",
+			"item": [
+				{
+					"name": "List Connections",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connections",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details of Connection",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connections/{{connection}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connections",
+								"{{connection}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details of Connection Parameters",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connections/{{connection}}/parameters",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connections",
+								"{{connection}}",
+								"parameters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details of Connection History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connections/{{connection}}/history",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connections",
+								"{{connection}}",
+								"history"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details of Connection Sharing Profiles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connections/{{connection}}/sharingProfiles",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connections",
+								"{{connection}}",
+								"sharingProfiles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Sharing Profiles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/sharingProfiles",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"sharingProfiles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Active Connections",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/activeConnections",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"activeConnections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Kill Connections",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"op\": \"remove\",\n        \"path\": \"/{{activeConnectionSession}}\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/activeConnections",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"activeConnections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create VNC Connection",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"parentIdentifier\": \"ROOT\",\r\n    \"name\": \"{{$randomLoremWord}}\",\r\n    \"protocol\": \"vnc\",\r\n    \"parameters\": {\r\n        \"port\": \"\",\r\n        \"read-only\": \"\",\r\n        \"swap-red-blue\": \"\",\r\n        \"cursor\": \"\",\r\n        \"color-depth\": \"\",\r\n        \"clipboard-encoding\": \"\",\r\n        \"disable-copy\": \"\",\r\n        \"disable-paste\": \"\",\r\n        \"dest-port\": \"\",\r\n        \"recording-exclude-output\": \"\",\r\n        \"recording-exclude-mouse\": \"\",\r\n        \"recording-include-keys\": \"\",\r\n        \"create-recording-path\": \"\",\r\n        \"enable-sftp\": \"true\",\r\n        \"sftp-port\": \"\",\r\n        \"sftp-server-alive-interval\": \"\",\r\n        \"enable-audio\": \"\",\r\n        \"audio-servername\": \"\",\r\n        \"sftp-directory\": \"\",\r\n        \"sftp-root-directory\": \"\",\r\n        \"sftp-passphrase\": \"\",\r\n        \"sftp-private-key\": \"\",\r\n        \"sftp-username\": \"\",\r\n        \"sftp-password\": \"\",\r\n        \"sftp-host-key\": \"\",\r\n        \"sftp-hostname\": \"\",\r\n        \"recording-name\": \"\",\r\n        \"recording-path\": \"\",\r\n        \"dest-host\": \"\",\r\n        \"password\": \"\",\r\n        \"username\": \"\",\r\n        \"hostname\": \"\"\r\n    },\r\n    \"attributes\": {\r\n        \"max-connections\": \"\",\r\n        \"max-connections-per-user\": \"\",\r\n        \"weight\": \"\",\r\n        \"failover-only\": \"\",\r\n        \"guacd-port\": \"\",\r\n        \"guacd-encryption\": \"\",\r\n        \"guacd-hostname\": \"\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connections",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create SSH Connection",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"parentIdentifier\": \"ROOT\",\r\n    \"name\": \"{{$randomLoremWord}}\",\r\n    \"protocol\": \"ssh\",\r\n    \"parameters\": {\r\n        \"port\": \"\",\r\n        \"read-only\": \"\",\r\n        \"swap-red-blue\": \"\",\r\n        \"cursor\": \"\",\r\n        \"color-depth\": \"\",\r\n        \"clipboard-encoding\": \"\",\r\n        \"disable-copy\": \"\",\r\n        \"disable-paste\": \"\",\r\n        \"dest-port\": \"\",\r\n        \"recording-exclude-output\": \"\",\r\n        \"recording-exclude-mouse\": \"\",\r\n        \"recording-include-keys\": \"\",\r\n        \"create-recording-path\": \"\",\r\n        \"enable-sftp\": \"\",\r\n        \"sftp-port\": \"\",\r\n        \"sftp-server-alive-interval\": \"\",\r\n        \"enable-audio\": \"\",\r\n        \"color-scheme\": \"\",\r\n        \"font-size\": \"\",\r\n        \"scrollback\": \"\",\r\n        \"timezone\": null,\r\n        \"server-alive-interval\": \"\",\r\n        \"backspace\": \"\",\r\n        \"terminal-type\": \"\",\r\n        \"create-typescript-path\": \"\",\r\n        \"hostname\": \"\",\r\n        \"host-key\": \"\",\r\n        \"private-key\": \"\",\r\n        \"username\": \"\",\r\n        \"password\": \"\",\r\n        \"passphrase\": \"\",\r\n        \"font-name\": \"\",\r\n        \"command\": \"\",\r\n        \"locale\": \"\",\r\n        \"typescript-path\": \"\",\r\n        \"typescript-name\": \"\",\r\n        \"recording-path\": \"\",\r\n        \"recording-name\": \"\",\r\n        \"sftp-root-directory\": \"\"\r\n    },\r\n    \"attributes\": {\r\n        \"max-connections\": \"\",\r\n        \"max-connections-per-user\": \"\",\r\n        \"weight\": \"\",\r\n        \"failover-only\": \"\",\r\n        \"guacd-port\": \"\",\r\n        \"guacd-encryption\": \"\",\r\n        \"guacd-hostname\": \"\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connections",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create RDP Connection",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"parentIdentifier\": \"ROOT\",\r\n    \"name\": \"{{$randomLoremWord}}\",\r\n    \"protocol\": \"rdp\",\r\n    \"parameters\": {\r\n        \"port\": \"\",\r\n        \"read-only\": \"\",\r\n        \"swap-red-blue\": \"\",\r\n        \"cursor\": \"\",\r\n        \"color-depth\": \"\",\r\n        \"clipboard-encoding\": \"\",\r\n        \"disable-copy\": \"\",\r\n        \"disable-paste\": \"\",\r\n        \"dest-port\": \"\",\r\n        \"recording-exclude-output\": \"\",\r\n        \"recording-exclude-mouse\": \"\",\r\n        \"recording-include-keys\": \"\",\r\n        \"create-recording-path\": \"\",\r\n        \"enable-sftp\": \"\",\r\n        \"sftp-port\": \"\",\r\n        \"sftp-server-alive-interval\": \"\",\r\n        \"enable-audio\": \"\",\r\n        \"security\": \"\",\r\n        \"disable-auth\": \"\",\r\n        \"ignore-cert\": \"\",\r\n        \"gateway-port\": \"\",\r\n        \"server-layout\": \"\",\r\n        \"timezone\": \"\",\r\n        \"console\": \"\",\r\n        \"width\": \"\",\r\n        \"height\": \"\",\r\n        \"dpi\": \"\",\r\n        \"resize-method\": \"\",\r\n        \"console-audio\": \"\",\r\n        \"disable-audio\": \"\",\r\n        \"enable-audio-input\": \"\",\r\n        \"enable-printing\": \"\",\r\n        \"enable-drive\": \"\",\r\n        \"create-drive-path\": \"\",\r\n        \"enable-wallpaper\": \"\",\r\n        \"enable-theming\": \"\",\r\n        \"enable-font-smoothing\": \"\",\r\n        \"enable-full-window-drag\": \"\",\r\n        \"enable-desktop-composition\": \"\",\r\n        \"enable-menu-animations\": \"\",\r\n        \"disable-bitmap-caching\": \"\",\r\n        \"disable-offscreen-caching\": \"\",\r\n        \"disable-glyph-caching\": \"\",\r\n        \"preconnection-id\": \"\",\r\n        \"hostname\": \"\",\r\n        \"username\": \"\",\r\n        \"password\": \"\",\r\n        \"domain\": \"\",\r\n        \"gateway-hostname\": \"\",\r\n        \"gateway-username\": \"\",\r\n        \"gateway-password\": \"\",\r\n        \"gateway-domain\": \"\",\r\n        \"initial-program\": \"\",\r\n        \"client-name\": \"\",\r\n        \"printer-name\": \"\",\r\n        \"drive-name\": \"\",\r\n        \"drive-path\": \"\",\r\n        \"static-channels\": \"\",\r\n        \"remote-app\": \"\",\r\n        \"remote-app-dir\": \"\",\r\n        \"remote-app-args\": \"\",\r\n        \"preconnection-blob\": \"\",\r\n        \"load-balance-info\": \"\",\r\n        \"recording-path\": \"\",\r\n        \"recording-name\": \"\",\r\n        \"sftp-hostname\": \"\",\r\n        \"sftp-host-key\": \"\",\r\n        \"sftp-username\": \"\",\r\n        \"sftp-password\": \"\",\r\n        \"sftp-private-key\": \"\",\r\n        \"sftp-passphrase\": \"\",\r\n        \"sftp-root-directory\": \"\",\r\n        \"sftp-directory\": \"\"\r\n    },\r\n    \"attributes\": {\r\n        \"max-connections\": \"\",\r\n        \"max-connections-per-user\": \"\",\r\n        \"weight\": \"\",\r\n        \"failover-only\": \"\",\r\n        \"guacd-port\": \"\",\r\n        \"guacd-encryption\": \"\",\r\n        \"guacd-hostname\": \"\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connections",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Telnet Connection",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"parentIdentifier\": \"ROOT\",\r\n    \"name\": \"{{$randomLoremWord}}\",\r\n    \"protocol\": \"telnet\",\r\n    \"parameters\": {\r\n        \"port\": \"\",\r\n        \"read-only\": \"\",\r\n        \"swap-red-blue\": \"\",\r\n        \"cursor\": \"\",\r\n        \"color-depth\": \"\",\r\n        \"clipboard-encoding\": \"\",\r\n        \"disable-copy\": \"\",\r\n        \"disable-paste\": \"\",\r\n        \"dest-port\": \"\",\r\n        \"recording-exclude-output\": \"\",\r\n        \"recording-exclude-mouse\": \"\",\r\n        \"recording-include-keys\": \"\",\r\n        \"create-recording-path\": \"\",\r\n        \"enable-sftp\": \"\",\r\n        \"sftp-port\": \"\",\r\n        \"sftp-server-alive-interval\": \"\",\r\n        \"enable-audio\": \"\",\r\n        \"color-scheme\": \"\",\r\n        \"font-size\": \"\",\r\n        \"scrollback\": \"\",\r\n        \"backspace\": \"\",\r\n        \"terminal-type\": \"\",\r\n        \"create-typescript-path\": \"\",\r\n        \"hostname\": \"\",\r\n        \"username\": \"\",\r\n        \"password\": \"\",\r\n        \"username-regex\": \"\",\r\n        \"password-regex\": \"\",\r\n        \"login-success-regex\": \"\",\r\n        \"login-failure-regex\": \"\",\r\n        \"font-name\": \"\",\r\n        \"typescript-path\": \"\",\r\n        \"typescript-name\": \"\",\r\n        \"recording-path\": \"\",\r\n        \"recording-name\": \"\"\r\n    },\r\n    \"attributes\": {\r\n        \"max-connections\": \"\",\r\n        \"max-connections-per-user\": \"\",\r\n        \"weight\": \"\",\r\n        \"failover-only\": \"\",\r\n        \"guacd-port\": \"\",\r\n        \"guacd-encryption\": \"\",\r\n        \"guacd-hostname\": \"\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connections",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Kubernetes Connection",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"parentIdentifier\": \"ROOT\",\r\n    \"name\": \"{{$randomLoremWord}}\",\r\n    \"protocol\": \"kubernetes\",\r\n    \"parameters\": {\r\n        \"port\": \"\",\r\n        \"read-only\": \"\",\r\n        \"swap-red-blue\": \"\",\r\n        \"cursor\": \"\",\r\n        \"color-depth\": \"\",\r\n        \"clipboard-encoding\": \"\",\r\n        \"disable-copy\": \"\",\r\n        \"disable-paste\": \"\",\r\n        \"dest-port\": \"\",\r\n        \"recording-exclude-output\": \"\",\r\n        \"recording-exclude-mouse\": \"\",\r\n        \"recording-include-keys\": \"\",\r\n        \"create-recording-path\": \"\",\r\n        \"enable-sftp\": \"\",\r\n        \"sftp-port\": \"\",\r\n        \"sftp-server-alive-interval\": \"\",\r\n        \"enable-audio\": \"\",\r\n        \"use-ssl\": \"\",\r\n        \"ignore-cert\": \"\",\r\n        \"color-scheme\": \"\",\r\n        \"font-size\": \"\",\r\n        \"scrollback\": \"\",\r\n        \"backspace\": \"\",\r\n        \"create-typescript-path\": \"\",\r\n        \"hostname\": \"\",\r\n        \"ca-cert\": \"\",\r\n        \"namespace\": \"\",\r\n        \"pod\": \"\",\r\n        \"container\": \"\",\r\n        \"client-cert\": \"\",\r\n        \"client-key\": \"\",\r\n        \"font-name\": \"\",\r\n        \"typescript-path\": \"\",\r\n        \"typescript-name\": \"\",\r\n        \"recording-path\": \"\",\r\n        \"recording-name\": \"\"\r\n    },\r\n    \"attributes\": {\r\n        \"max-connections\": \"\",\r\n        \"max-connections-per-user\": \"\",\r\n        \"weight\": \"\",\r\n        \"failover-only\": \"\",\r\n        \"guacd-port\": \"\",\r\n        \"guacd-encryption\": \"\",\r\n        \"guacd-hostname\": \"\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connections",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update VNC Connection",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"parentIdentifier\": \"ROOT\",\r\n    \"name\": \"test\",\r\n    \"identifier\": \"1\",\r\n    \"activeConnections\": 0,\r\n    \"protocol\": \"vnc\",\r\n    \"parameters\": {\r\n        \"port\": \"\",\r\n        \"read-only\": \"\",\r\n        \"swap-red-blue\": \"\",\r\n        \"cursor\": \"\",\r\n        \"color-depth\": \"\",\r\n        \"clipboard-encoding\": \"\",\r\n        \"disable-copy\": \"\",\r\n        \"disable-paste\": \"\",\r\n        \"dest-port\": \"\",\r\n        \"recording-exclude-output\": \"\",\r\n        \"recording-exclude-mouse\": \"\",\r\n        \"recording-include-keys\": \"\",\r\n        \"create-recording-path\": \"\",\r\n        \"enable-sftp\": \"true\",\r\n        \"sftp-port\": \"\",\r\n        \"sftp-server-alive-interval\": \"\",\r\n        \"enable-audio\": \"\",\r\n        \"audio-servername\": \"\",\r\n        \"sftp-directory\": \"\",\r\n        \"sftp-root-directory\": \"\",\r\n        \"sftp-passphrase\": \"\",\r\n        \"sftp-private-key\": \"\",\r\n        \"sftp-username\": \"\",\r\n        \"sftp-password\": \"\",\r\n        \"sftp-host-key\": \"\",\r\n        \"sftp-hostname\": \"\",\r\n        \"recording-name\": \"\",\r\n        \"recording-path\": \"\",\r\n        \"dest-host\": \"\",\r\n        \"password\": \"\",\r\n        \"username\": \"\",\r\n        \"hostname\": \"\"\r\n    },\r\n    \"attributes\": {\r\n        \"max-connections\": \"\",\r\n        \"max-connections-per-user\": \"\",\r\n        \"weight\": \"\",\r\n    \t \"failover-only\": \"\",\r\n        \"guacd-port\": \"\",\r\n        \"guacd-encryption\": \"\",\r\n        \"guacd-hostname\": \"\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connections/{{connection}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connections",
+								"{{connection}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update SSH Connection",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"parentIdentifier\": \"ROOT\",\r\n    \"name\": \"test\",\r\n    \"identifier\": \"1\",\r\n    \"activeConnections\": 0,\r\n    \"protocol\": \"ssh\",\r\n    \"parameters\": {\r\n        \"port\": \"\",\r\n        \"read-only\": \"\",\r\n        \"swap-red-blue\": \"\",\r\n        \"cursor\": \"\",\r\n        \"color-depth\": \"\",\r\n        \"clipboard-encoding\": \"\",\r\n        \"disable-copy\": \"\",\r\n        \"disable-paste\": \"\",\r\n        \"dest-port\": \"\",\r\n        \"recording-exclude-output\": \"\",\r\n        \"recording-exclude-mouse\": \"\",\r\n        \"recording-include-keys\": \"\",\r\n        \"create-recording-path\": \"\",\r\n        \"enable-sftp\": \"\",\r\n        \"sftp-port\": \"\",\r\n        \"sftp-server-alive-interval\": \"\",\r\n        \"enable-audio\": \"\",\r\n        \"color-scheme\": \"\",\r\n        \"font-size\": \"\",\r\n        \"scrollback\": \"\",\r\n        \"timezone\": null,\r\n        \"server-alive-interval\": \"\",\r\n        \"backspace\": \"\",\r\n        \"terminal-type\": \"\",\r\n        \"create-typescript-path\": \"\",\r\n        \"hostname\": \"\",\r\n        \"host-key\": \"\",\r\n        \"private-key\": \"\",\r\n        \"username\": \"\",\r\n        \"password\": \"\",\r\n        \"passphrase\": \"\",\r\n        \"font-name\": \"\",\r\n        \"command\": \"\",\r\n        \"locale\": \"\",\r\n        \"typescript-path\": \"\",\r\n        \"typescript-name\": \"\",\r\n        \"recording-path\": \"\",\r\n        \"recording-name\": \"\",\r\n        \"sftp-root-directory\": \"\"\r\n    },\r\n    \"attributes\": {\r\n        \"max-connections\": \"\",\r\n        \"max-connections-per-user\": \"\",\r\n        \"weight\": \"\",\r\n        \"failover-only\": \"\",\r\n        \"guacd-port\": \"\",\r\n        \"guacd-encryption\": \"\",\r\n        \"guacd-hostname\": \"\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connections/{{connection}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connections",
+								"{{connection}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update RDP Connection",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"parentIdentifier\": \"ROOT\",\r\n    \"name\": \"test\",\r\n    \"identifier\": \"1\",\r\n    \"activeConnections\": 0,\r\n    \"protocol\": \"rdp\",\r\n    \"parameters\": {\r\n        \"port\": \"\",\r\n        \"read-only\": \"\",\r\n        \"swap-red-blue\": \"\",\r\n        \"cursor\": \"\",\r\n        \"color-depth\": \"\",\r\n        \"clipboard-encoding\": \"\",\r\n        \"disable-copy\": \"\",\r\n        \"disable-paste\": \"\",\r\n        \"dest-port\": \"\",\r\n        \"recording-exclude-output\": \"\",\r\n        \"recording-exclude-mouse\": \"\",\r\n        \"recording-include-keys\": \"\",\r\n        \"create-recording-path\": \"\",\r\n        \"enable-sftp\": \"\",\r\n        \"sftp-port\": \"\",\r\n        \"sftp-server-alive-interval\": \"\",\r\n        \"enable-audio\": \"\",\r\n        \"security\": \"\",\r\n        \"disable-auth\": \"\",\r\n        \"ignore-cert\": \"\",\r\n        \"gateway-port\": \"\",\r\n        \"server-layout\": \"\",\r\n        \"timezone\": \"\",\r\n        \"console\": \"\",\r\n        \"width\": \"\",\r\n        \"height\": \"\",\r\n        \"dpi\": \"\",\r\n        \"resize-method\": \"\",\r\n        \"console-audio\": \"\",\r\n        \"disable-audio\": \"\",\r\n        \"enable-audio-input\": \"\",\r\n        \"enable-printing\": \"\",\r\n        \"enable-drive\": \"\",\r\n        \"create-drive-path\": \"\",\r\n        \"enable-wallpaper\": \"\",\r\n        \"enable-theming\": \"\",\r\n        \"enable-font-smoothing\": \"\",\r\n        \"enable-full-window-drag\": \"\",\r\n        \"enable-desktop-composition\": \"\",\r\n        \"enable-menu-animations\": \"\",\r\n        \"disable-bitmap-caching\": \"\",\r\n        \"disable-offscreen-caching\": \"\",\r\n        \"disable-glyph-caching\": \"\",\r\n        \"preconnection-id\": \"\",\r\n        \"hostname\": \"\",\r\n        \"username\": \"\",\r\n        \"password\": \"\",\r\n        \"domain\": \"\",\r\n        \"gateway-hostname\": \"\",\r\n        \"gateway-username\": \"\",\r\n        \"gateway-password\": \"\",\r\n        \"gateway-domain\": \"\",\r\n        \"initial-program\": \"\",\r\n        \"client-name\": \"\",\r\n        \"printer-name\": \"\",\r\n        \"drive-name\": \"\",\r\n        \"drive-path\": \"\",\r\n        \"static-channels\": \"\",\r\n        \"remote-app\": \"\",\r\n        \"remote-app-dir\": \"\",\r\n        \"remote-app-args\": \"\",\r\n        \"preconnection-blob\": \"\",\r\n        \"load-balance-info\": \"\",\r\n        \"recording-path\": \"\",\r\n        \"recording-name\": \"\",\r\n        \"sftp-hostname\": \"\",\r\n        \"sftp-host-key\": \"\",\r\n        \"sftp-username\": \"\",\r\n        \"sftp-password\": \"\",\r\n        \"sftp-private-key\": \"\",\r\n        \"sftp-passphrase\": \"\",\r\n        \"sftp-root-directory\": \"\",\r\n        \"sftp-directory\": \"\"\r\n    },\r\n    \"attributes\": {\r\n        \"max-connections\": \"\",\r\n        \"max-connections-per-user\": \"\",\r\n        \"weight\": \"\",\r\n        \"failover-only\": \"\",\r\n        \"guacd-port\": \"\",\r\n        \"guacd-encryption\": \"\",\r\n        \"guacd-hostname\": \"\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connections/{{connection}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connections",
+								"{{connection}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Telnet Connection",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"parentIdentifier\": \"ROOT\",\r\n    \"name\": \"test\",\r\n    \"identifier\": \"1\",\r\n    \"activeConnections\": 0,\r\n    \"protocol\": \"telnet\",\r\n    \"parameters\": {\r\n        \"port\": \"\",\r\n        \"read-only\": \"\",\r\n        \"swap-red-blue\": \"\",\r\n        \"cursor\": \"\",\r\n        \"color-depth\": \"\",\r\n        \"clipboard-encoding\": \"\",\r\n        \"disable-copy\": \"\",\r\n        \"disable-paste\": \"\",\r\n        \"dest-port\": \"\",\r\n        \"recording-exclude-output\": \"\",\r\n        \"recording-exclude-mouse\": \"\",\r\n        \"recording-include-keys\": \"\",\r\n        \"create-recording-path\": \"\",\r\n        \"enable-sftp\": \"\",\r\n        \"sftp-port\": \"\",\r\n        \"sftp-server-alive-interval\": \"\",\r\n        \"enable-audio\": \"\",\r\n        \"color-scheme\": \"\",\r\n        \"font-size\": \"\",\r\n        \"scrollback\": \"\",\r\n        \"backspace\": \"\",\r\n        \"terminal-type\": \"\",\r\n        \"create-typescript-path\": \"\",\r\n        \"hostname\": \"\",\r\n        \"username\": \"\",\r\n        \"password\": \"\",\r\n        \"username-regex\": \"\",\r\n        \"password-regex\": \"\",\r\n        \"login-success-regex\": \"\",\r\n        \"login-failure-regex\": \"\",\r\n        \"font-name\": \"\",\r\n        \"typescript-path\": \"\",\r\n        \"typescript-name\": \"\",\r\n        \"recording-path\": \"\",\r\n        \"recording-name\": \"\"\r\n    },\r\n    \"attributes\": {\r\n        \"max-connections\": \"\",\r\n        \"max-connections-per-user\": \"\",\r\n        \"weight\": \"\",\r\n        \"failover-only\": \"\",\r\n        \"guacd-port\": \"\",\r\n        \"guacd-encryption\": \"\",\r\n        \"guacd-hostname\": \"\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connections/{{connection}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connections",
+								"{{connection}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Kubernetes Connection",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"parentIdentifier\": \"ROOT\",\r\n    \"name\": \"test\",\r\n    \"identifier\": \"1\",\r\n    \"activeConnections\": 0,\r\n    \"protocol\": \"kubernetes\",\r\n    \"parameters\": {\r\n        \"port\": \"\",\r\n        \"read-only\": \"\",\r\n        \"swap-red-blue\": \"\",\r\n        \"cursor\": \"\",\r\n        \"color-depth\": \"\",\r\n        \"clipboard-encoding\": \"\",\r\n        \"disable-copy\": \"\",\r\n        \"disable-paste\": \"\",\r\n        \"dest-port\": \"\",\r\n        \"recording-exclude-output\": \"\",\r\n        \"recording-exclude-mouse\": \"\",\r\n        \"recording-include-keys\": \"\",\r\n        \"create-recording-path\": \"\",\r\n        \"enable-sftp\": \"\",\r\n        \"sftp-port\": \"\",\r\n        \"sftp-server-alive-interval\": \"\",\r\n        \"enable-audio\": \"\",\r\n        \"use-ssl\": \"\",\r\n        \"ignore-cert\": \"\",\r\n        \"color-scheme\": \"\",\r\n        \"font-size\": \"\",\r\n        \"scrollback\": \"\",\r\n        \"backspace\": \"\",\r\n        \"create-typescript-path\": \"\",\r\n        \"hostname\": \"\",\r\n        \"ca-cert\": \"\",\r\n        \"namespace\": \"\",\r\n        \"pod\": \"\",\r\n        \"container\": \"\",\r\n        \"client-cert\": \"\",\r\n        \"client-key\": \"\",\r\n        \"font-name\": \"\",\r\n        \"typescript-path\": \"\",\r\n        \"typescript-name\": \"\",\r\n        \"recording-path\": \"\",\r\n        \"recording-name\": \"\"\r\n    },\r\n    \"attributes\": {\r\n        \"max-connections\": \"\",\r\n        \"max-connections-per-user\": \"\",\r\n        \"weight\": \"\",\r\n        \"failover-only\": \"\",\r\n        \"guacd-port\": \"\",\r\n        \"guacd-encryption\": \"\",\r\n        \"guacd-hostname\": \"\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connections/{{connection}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connections",
+								"{{connection}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Connection",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connections/{{connection}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connections",
+								"{{connection}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Connection Groups",
+			"item": [
+				{
+					"name": "List Connection Groups",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connectionGroups",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connectionGroups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Connections and Connection Groups",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connectionGroups/ROOT/tree",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connectionGroups",
+								"ROOT",
+								"tree"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details of Connection Group",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connectionGroups/{{connectionGroup}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connectionGroups",
+								"{{connectionGroup}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details of Connection Group Tree",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connectionGroups/{{connectionGroup}}/tree?permission=ADMINISTER",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connectionGroups",
+								"{{connectionGroup}}",
+								"tree"
+							],
+							"query": [
+								{
+									"key": "permission",
+									"value": "ADMINISTER"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Connection Group",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test\",\n    \"identifier\": \"1\",\n    \"parentIdentifier\": \"ROOT\",\n    \"type\": \"ORGANIZATIONAL\",\n    \"activeConnections\": 0,\n    \"attributes\": {\n        \"max-connections\": \"\",\n        \"max-connections-per-user\": \"\",\n        \"enable-session-affinity\": \"\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connectionGroups/{{connectionGroup}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connectionGroups",
+								"{{connectionGroup}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Connection Group",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"parentIdentifier\": \"1\",\n    \"name\": \"name\",\n    \"type\": \"ORGANIZATIONAL\",\n    \"attributes\": {\n        \"max-connections\": \"\",\n        \"max-connections-per-user\": \"\",\n        \"enable-session-affinity\": \"\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connectionGroups",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connectionGroups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Connection Group",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/connectionGroups/{{connectionGroup}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"connectionGroups",
+								"{{connectionGroup}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "List Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/users",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details of User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/users/{{username}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"users",
+								"{{username}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details of Self",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/self",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"self"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details of User Permissions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/users/{{username}}/permissions",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"users",
+								"{{username}}",
+								"permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details of User Effective Permissions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/users/{{username}}/effectivePermissions",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"users",
+								"{{username}}",
+								"effectivePermissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details of User Groups",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/users/{{username}}/userGroups",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"users",
+								"{{username}}",
+								"userGroups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details of User History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/users/{{username}}/history",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"users",
+								"{{username}}",
+								"history"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign User to User Groups",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"op\": \"add\",\n        \"path\": \"/\",\n        \"value\": \"{{userGroup}}\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/users/{{username}}/userGroups",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"users",
+								"{{username}}",
+								"userGroups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Revoke User from User Groups",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"op\": \"remove\",\n        \"path\": \"/\",\n        \"value\": \"{{userGroup}}\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/users/{{username}}/userGroups",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"users",
+								"{{username}}",
+								"userGroups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign User to Connections",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"op\": \"add\",\n        \"path\": \"/connectionPermissions/{{connection}}\",\n        \"value\": \"READ\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/users/{{username}}/permissions",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"users",
+								"{{username}}",
+								"permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Revoke User from Connections",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"op\": \"remove\",\n        \"path\": \"/connectionPermissions/{{connectionId}}\",\n        \"value\": \"READ\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/users/{{username}}/permissions",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"users",
+								"{{username}}",
+								"permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"oldPassword\": \"{{password}}\",\n\t\"newPassword\": \"{{$randomPassword}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/users/{{username}}/password",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"users",
+								"{{username}}",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{username}}\",\n    \"attributes\": {\n        \"guac-email-address\": null,\n        \"guac-organizational-role\": null,\n        \"guac-full-name\": null,\n        \"expired\": \"\",\n        \"timezone\": null,\n        \"access-window-start\": \"\",\n        \"guac-organization\": null,\n        \"access-window-end\": \"\",\n        \"disabled\": \"\",\n        \"valid-until\": \"\",\n        \"valid-from\": \"\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/users/{{username}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"users",
+								"{{username}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"{{$randomUserName}}\",\r\n    \"password\": \"{{$randomPassword}}\",\r\n    \"attributes\": {\r\n        \"disabled\": \"\",\r\n        \"expired\": \"\",\r\n        \"access-window-start\": \"\",\r\n        \"access-window-end\": \"\",\r\n        \"valid-from\": \"\",\r\n        \"valid-until\": \"\",\r\n        \"timezone\": null,\r\n        \"guac-full-name\": \"\",\r\n        \"guac-organization\": \"\",\r\n        \"guac-organizational-role\": \"\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/users",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/users/{{username}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"users",
+								"{{username}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Groups",
+			"item": [
+				{
+					"name": "List User Groups",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/userGroups",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"userGroups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details of User Group",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/userGroups/{{userGroup}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"userGroups",
+								"{{userGroup}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Members to User Group",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"op\": \"add\",\n        \"path\": \"/\",\n        \"value\": \"username\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/userGroups/{{userGroup}}/memberUsers",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"userGroups",
+								"{{userGroup}}",
+								"memberUsers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Member Groups to User Group",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"op\": \"add\",\n        \"path\": \"/\",\n        \"value\": \"<a-user-group-identifier>\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/userGroups/{{userGroup}}/memberUserGroups",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"userGroups",
+								"{{userGroup}}",
+								"memberUserGroups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Parent Groups to User Group",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"op\": \"add\",\n        \"path\": \"/\",\n        \"value\": \"<a-user-group-identifier>\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/userGroups/{{userGroup}}/userGroups",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"userGroups",
+								"{{userGroup}}",
+								"userGroups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Permissions to User Group",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"op\": \"add\",\n        \"path\": \"/connectionPermissions/{{userGroup}}\",\n        \"value\": \"READ\"\n    },\n    {\n        \"op\": \"add\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"CREATE_USER\"\n    },\n    {\n        \"op\": \"add\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"ADMINISTER\"\n    },\n    {\n        \"op\": \"add\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"CREATE_USER_GROUP\"\n    },\n    {\n        \"op\": \"add\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"CREATE_CONNECTION\"\n    },\n    {\n        \"op\": \"add\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"CREATE_SHARING_PROFILE\"\n    },\n    {\n        \"op\": \"add\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"CREATE_CONNECTION_GROUP\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/userGroups/{{userGroup}}/permissions",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"userGroups",
+								"{{userGroup}}",
+								"permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Revoke Permissions from User Group",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"op\": \"remove\",\n        \"path\": \"/connectionPermissions/{{userGroup}}\",\n        \"value\": \"READ\"\n    },\n    {\n        \"op\": \"remove\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"CREATE_USER\"\n    },\n    {\n        \"op\": \"remove\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"ADMINISTER\"\n    },\n    {\n        \"op\": \"remove\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"CREATE_USER_GROUP\"\n    },\n    {\n        \"op\": \"remove\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"CREATE_CONNECTION\"\n    },\n    {\n        \"op\": \"remove\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"CREATE_SHARING_PROFILE\"\n    },\n    {\n        \"op\": \"remove\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"CREATE_CONNECTION_GROUP\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/userGroups/{{userGroup}}/permissions",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"userGroups",
+								"{{userGroup}}",
+								"permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Connections to User Group",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"op\": \"add\",\n        \"path\": \"/connectionPermissions/{{connection}}\",\n        \"value\": \"READ\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/userGroups/{{userGroup}}/permissions",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"userGroups",
+								"{{userGroup}}",
+								"permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Revoke Connections from User Group",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"op\": \"remove\",\n        \"path\": \"/connectionPermissions/{{connection}}\",\n        \"value\": \"READ\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/userGroups/{{userGroup}}/permissions",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"userGroups",
+								"{{userGroup}}",
+								"permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Group",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"identifier\": \"test\",\n    \"attributes\": {\n        \"disabled\": \"\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/userGroups/{{userGroup}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"userGroups",
+								"{{userGroup}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Group",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"identifier\": \"testass\",\n    \"attributes\": {\n        \"disabled\": \"\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/userGroups",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"userGroups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User Group",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/userGroups/{{userGroup}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"userGroups",
+								"{{userGroup}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Permissions",
+			"item": [
+				{
+					"name": "Assign System Permissions to User",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"op\": \"add\",\n        \"path\": \"/userPermissions/test1\",\n        \"value\": \"UPDATE\"\n    },\n    {\n        \"op\": \"add\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"CREATE_USER\"\n    },\n    {\n        \"op\": \"add\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"CREATE_USER_GROUP\"\n    },\n    {\n        \"op\": \"add\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"CREATE_CONNECTION\"\n    },\n    {\n        \"op\": \"add\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"CREATE_CONNECTION_GROUP\"\n    },\n    {\n        \"op\": \"add\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"CREATE_SHARING_PROFILE\"\n    },\n    {\n        \"op\": \"add\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"ADMINISTER\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/users/{{username}}/permissions",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"users",
+								"{{username}}",
+								"permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Revoke System Permissions from User",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"op\": \"remove\",\n        \"path\": \"/userPermissions/test1\",\n        \"value\": \"UPDATE\"\n    },\n    {\n        \"op\": \"remove\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"CREATE_SHARING_PROFILE\"\n    },\n    {\n        \"op\": \"remove\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"CREATE_CONNECTION_GROUP\"\n    },\n    {\n        \"op\": \"remove\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"CREATE_CONNECTION\"\n    },\n    {\n        \"op\": \"remove\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"CREATE_USER_GROUP\"\n    },\n    {\n        \"op\": \"remove\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"CREATE_USER\"\n    },\n    {\n        \"op\": \"remove\",\n        \"path\": \"/systemPermissions\",\n        \"value\": \"ADMINISTER\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/users/{{username}}/permissions",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"users",
+								"{{username}}",
+								"permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Connection Group to User",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"op\": \"add\",\n        \"path\": \"/connectionGroupPermissions/{{connectionGroup}}\",\n        \"value\": \"READ\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/users/{{username}}/permissions",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"users",
+								"{{username}}",
+								"permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Revoke Connection Group from User",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"op\": \"remove\",\n        \"path\": \"/connectionGroupPermissions/{{connectionGroup}}\",\n        \"value\": \"READ\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/users/{{username}}/permissions",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"users",
+								"{{username}}",
+								"permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Connection Group to User Group",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"op\": \"add\",\n        \"path\": \"/connectionGroupPermissions/{{connectionGroup}}\",\n        \"value\": \"READ\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/userGroups/{{userGroup}}/permissions",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"userGroups",
+								"{{userGroup}}",
+								"permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Revoke Connection Group from User Group",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"op\": \"remove\",\n        \"path\": \"/connectionGroupPermissions/{{connectionGroup}}\",\n        \"value\": \"READ\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/userGroups/{{userGroup}}/permissions",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"userGroups",
+								"{{userGroup}}",
+								"permissions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "History",
+			"item": [
+				{
+					"name": "List Connection History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/history/connections?contains=guac&order=-startDate",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"history",
+								"connections"
+							],
+							"query": [
+								{
+									"key": "contains",
+									"value": "guac"
+								},
+								{
+									"key": "order",
+									"value": "-startDate"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Users History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/history/users?order=startDate",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"history",
+								"users"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "startDate"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tunnels",
+			"item": [
+				{
+					"name": "Details of Tunnel",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/tunnels/{{tunnel}}/activeConnection/connection/sharingProfiles",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"tunnels",
+								"{{tunnel}}",
+								"activeConnection",
+								"connection",
+								"sharingProfiles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Tunnels",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/tunnels",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"tunnels"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sharing Profiles",
+			"item": [
+				{
+					"name": "List Sharing Profiles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/sharingProfiles",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"sharingProfiles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details of Sharing Profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/sharingProfiles/{{sharingProfile}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"sharingProfiles",
+								"{{sharingProfile}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Sharing Profile",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"primaryConnectionIdentifier\": \"8\",\n    \"name\": \"test\",\n    \"parameters\": {\n        \"read-only\": \"\"\n    },\n    \"attributes\": {}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/sharingProfiles",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"sharingProfiles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Sharing Profile",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/sharingProfiles/{{sharingProfile}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"sharingProfiles",
+								"{{sharingProfile}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Schemas",
+			"item": [
+				{
+					"name": "List User Attributes Schema",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/schema/userAttributes",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"schema",
+								"userAttributes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List User Group Attributes Schema",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/schema/userGroupAttributes",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"schema",
+								"userGroupAttributes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Connection Attributes Schema",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/schema/connectionAttributes",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"schema",
+								"connectionAttributes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Sharing Profile Attributes Schema",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/schema/sharingProfileAttributes",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"schema",
+								"sharingProfileAttributes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Connection Group Attributes Schema",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/schema/connectionGroupAttributes",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"schema",
+								"connectionGroupAttributes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Protocols",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/data/{{dataSource}}/schema/protocols",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"data",
+								"{{dataSource}}",
+								"schema",
+								"protocols"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Patches",
+			"item": [
+				{
+					"name": "List Patches",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/patches",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"patches"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Languages",
+			"item": [
+				{
+					"name": "List Languages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/languages",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"languages"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Extentions",
+			"item": [
+				{
+					"name": "Details of Data Source Extentions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/session/ext/{{dataSource}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"session",
+								"ext",
+								"{{dataSource}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "{{authToken}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "token",
+				"type": "string"
+			},
+			{
+				"key": "in",
+				"value": "query",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "https://sandbox-train.foosource.net/guacamole"
+		},
+		{
+			"key": "authToken",
+			"value": "24EB99465AA4ertertE6DF7E507F41FA8A574801383D0D1A"
+		},
+		{
+			"key": "dataSource",
+			"value": "postgresql"
+		},
+		{
+			"key": "adminUsername",
+			"value": "someuser"
+		},
+		{
+			"key": "adminPassword",
+			"value": "somepass"
+		},
+		{
+			"key": "connectionGroup",
+			"value": ""
+		},
+		{
+			"key": "connection",
+			"value": "1"
+		},
+		{
+			"key": "tunnel",
+			"value": ""
+		},
+		{
+			"key": "userGroup",
+			"value": ""
+		},
+		{
+			"key": "sharingProfile",
+			"value": ""
+		},
+		{
+			"key": "username",
+			"value": "someuser"
+		},
+		{
+			"key": "password",
+			"value": "somepass"
+		}
+	]
+}

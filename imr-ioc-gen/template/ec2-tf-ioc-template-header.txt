@@ -1,0 +1,49 @@
+
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.54"
+    }
+  }
+}
+
+variable "role_partition_ids" {
+  type = map(string)
+  default = {
+    "gov-dev" : "404345345957"
+    "gov-stage" : "434534536"
+    "gov-prod" : "40334534543"
+    "gov-sandbox" : "2634534516"
+  }
+}
+
+provider "aws" {
+  region = "us-gov-west-1"
+  assume_role {
+    role_arn     = "arn:aws-us-gov:iam::${var.role_partition_ids["gov-dev"]}:role/CVLE_Administrator"
+    session_name = "terraform"
+  }
+}
+
+
+data "aws_vpc" "vpc_range" {
+  filter {
+    name = "tag:Name"
+    values = [
+    "RANGE-VPC"]
+  }
+}
+
+locals {
+  environment       = "sandbox"
+  ami_dc            = "ami-0b873458f"  #IOC_DC_base
+  ami_wks           = "ami-0c3334585e3f" #IOC_Wks_base
+  instance_type     = "t3.large"
+  instance_type_wks = "t2.large"
+}
+
+
+// Generated TF Below #########################3
+
+

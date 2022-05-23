@@ -1,0 +1,75 @@
+
+//--------------------------------------------------------------//
+
+resource "aws_security_group" "ec2-ioc-sg-REPLACE_IDX" {
+  vpc_id = data.aws_vpc.vpc_range.id
+  name   = "RANGE_IOC-SG-REPLACE_IDX"
+
+  ingress {
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+    cidr_blocks = [
+    "REPLACE_IP1/32", "REPLACE_IP2/32", "GUAC_APP/32", "GUAC_D/32"]
+  }
+
+  egress {
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+    cidr_blocks = [
+    "REPLACE_IP1/32", "REPLACE_IP2/32", "GUAC_APP/32", "GUAC_D/32"]
+  }
+
+  tags = {
+    "Name"        = "RANGE_IOC-SG-REPLACE_IDX"
+    "Environment" = local.environment
+    "Kind"        = "RANGE_IOC-SG"
+  }
+}
+
+
+resource "aws_instance" "ec2-ioc-dc-REPLACE_IDX" {
+  ami           = local.ami_dc
+  instance_type = local.instance_type
+
+  tags = {
+    "Name"        = "IOC-DC-REPLACE_IDX"
+    "Environment" = local.environment
+    "Kind"        = "IOC-DC"
+  }
+
+  network_interface {
+    network_interface_id = "REPLACE_NI_ID1"
+    device_index         = 0
+  }
+}
+
+resource "aws_network_interface_sg_attachment" "dc_sg_attachment-REPLACE_IDX" {
+  security_group_id    = aws_security_group.ec2-ioc-sg-REPLACE_IDX.id
+  network_interface_id = "REPLACE_NI_ID1"
+}
+
+
+resource "aws_instance" "ec2-ioc-wks-REPLACE_IDX" {
+  ami           = local.ami_wks
+  instance_type = local.instance_type_wks
+
+  tags = {
+    "Name"        = "IOC-WKS-REPLACE_IDX"
+    "Environment" = local.environment
+    "Kind"        = "IOC-WKS"
+  }
+
+  network_interface {
+    network_interface_id = "REPLACE_NI_ID2"
+    device_index         = 0
+  }
+}
+
+resource "aws_network_interface_sg_attachment" "wks_sg_attachment-REPLACE_IDX" {
+  security_group_id    = aws_security_group.ec2-ioc-sg-REPLACE_IDX.id
+  network_interface_id = "REPLACE_NI_ID2"
+}
+
+//--------------------------------------------------------------//

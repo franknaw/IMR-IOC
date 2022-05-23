@@ -1,0 +1,66 @@
+{
+  "eni_1_ids": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string",
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "eni-067ff0sdf7725e57",
+      "eni-046dbsdf7ec9b44a",
+      "eni-0c6ctertfbd377ee4",
+      "eni-04ertb9d711f"
+    ]
+  },
+  "eni_1_ips": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string",
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "172.31.16.121",
+      "172.31.16.104",
+      "172.31.16.153",
+      "172.31.16.75"
+    ]
+  },
+  "vpc_range_subs_private_cidr_blocks": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "172.31.16.0/24",
+      "172.31.17.0/24"
+    ]
+  },
+  "vpc_range_subs_private_ids": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "subnet-0654ertertd8d9f75c",
+      "subnet-0e8418fertertf0465"
+    ]
+  }
+}
